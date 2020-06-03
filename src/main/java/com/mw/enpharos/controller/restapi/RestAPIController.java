@@ -32,6 +32,9 @@ public class RestAPIController {
 	// Table List ( pharos_mw / sktngm12! 계정 )
 	////////////////////////////////////////////////////
 	// BIZ_STAT_D       ( GUI + MCA + EAI )
+	// BIZ_STAT_H       ( GUI + MCA + EAI )
+	// BIZ_STAT_10MIN   ( GUI + MCA + EAI )
+	// BIZ_STAT_1MIN    ( GUI + MCA + EAI )
 	// PJ_URI_STAT_D
 	// PT_CT_SVC_STAT_D ( 피연동 포함 )
 	// TEMP_PEAK_TPS_D  ( biz_stat_1min		기준 Daily MAX - 전세 TPS, GUI, MCA, EAI )
@@ -46,8 +49,8 @@ public class RestAPIController {
     
 	// tpsresdtoservice
 	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",
-			method= RequestMethod.GET,
-			produces = "application/json;application/text;charset=utf-8")
+					method= RequestMethod.GET,
+					produces = "application/json;application/text;charset=utf-8")
 	public List<TpsResDTO> hour_tps_res( @PathVariable("yyyymmddhh") String yyyymmddhh ) {
 		
 		List<TpsResDTO> list = null;
@@ -68,8 +71,7 @@ public class RestAPIController {
 			}
 			return list;
 		} catch(Exception io) {
-			System.out.println(io.toString());
-			
+			System.out.println(io.toString());			
 			return list;
 		}
 	}
