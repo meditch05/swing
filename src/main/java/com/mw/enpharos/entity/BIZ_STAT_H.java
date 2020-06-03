@@ -24,10 +24,9 @@ import lombok.NoArgsConstructor;
 	);
  */
 
-// @Data
-// @AllArgsConstructor
-// @NoArgsConstructor
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "biz_stat_h")
 public class BIZ_STAT_H {
