@@ -39,7 +39,7 @@ public class RestAPIController {
  	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",
  					method= RequestMethod.GET,
  					produces = "application/json;application/text;charset=utf-8")
- 	public List<TpsResDTO> get_1hour_tpsres( @PathVariable("yyyymmddhh") String yyyymmddhh ) {
+ 	public List<TpsResDTO> get_1hour_tpsres(@PathVariable("yyyymmddhh") String yyyymmddhh ) {
  		
  		List<TpsResDTO> list = null;
  	
@@ -70,7 +70,9 @@ public class RestAPIController {
  	@RequestMapping(value="/get/swing/hour/tps_res/period",
  					method= RequestMethod.POST,
  					produces = "application/json;application/text;charset=utf-8")
- 	public List<TpsResDTO> get_1hour_tpsres_period( @Param("from") String from, @Param("to") String to) {
+ 	public List<TpsResDTO> get_1hour_tpsres_period(
+ 			@RequestParam(value="from") String from,
+ 			@RequestParam(value="to")   String to) {
  		
  		List<TpsResDTO> list = null;
  	
