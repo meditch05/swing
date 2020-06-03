@@ -24,13 +24,13 @@ public class TpsResDTOService {
     					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
     					"FROM BIZ_STAT_H\n" + 
     					"WHERE CATEGORY_TYPE = '101'\n" + 
-    					"  AND TIMESLICE = TO_TIMESTAMP(:yyyymmddhh,'YYYYMMDDHH')\n" + 
+    					"  AND TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDDHH')\n" + 
     					"  AND TX_CODE like 'Z%_TR%'\n" + 
     					"GROUP BY TIMESLICE";
     	
     	JpaResultMapper result = new JpaResultMapper();
     	Query query = em.createNativeQuery(sql)
-    			.setParameter("yyyymmddhh", yyyymmddhh);
+    			.setParameter("value1", yyyymmddhh);
     	List<TpsResDTO> list = result.list(query,  TpsResDTO.class);
     	
     	return list;
