@@ -1,6 +1,7 @@
 package com.mw.enpharos.controller.restapi;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,55 +29,74 @@ import javax.persistence.Id;
 @RequestMapping("/api")
 public class RestAPIController {
 	
-    ////////////////////////////////////////////////////
-	// Table List ( pharos_mw / sktngm12! 계정 )
-	////////////////////////////////////////////////////
-	// BIZ_STAT_D       ( GUI + MCA + EAI )
-	// BIZ_STAT_H       ( GUI + MCA + EAI )
-	// BIZ_STAT_10MIN   ( GUI + MCA + EAI )
-	// BIZ_STAT_1MIN    ( GUI + MCA + EAI )
-	// PJ_URI_STAT_D
-	// PT_CT_SVC_STAT_D ( 피연동 포함 )
-	// TEMP_PEAK_TPS_D  ( biz_stat_1min		기준 Daily MAX - 전세 TPS, GUI, MCA, EAI )
-	// TEMP_PT_TPS_D    ( pj_uri_stat_1min	기준 PT단 성능 내부/외부 )
-	// TEMP_AP_STAT_DN  ( biz_stat_1min		기준 Swing 성능용량 보고서 작성시, 등록/조회 TP 구분하여 TPS 추출
-	
     @Autowired
     private BIZ_STAT_H_Mapper h_Mapper;
     
     @Autowired
     private TpsResDTOService tpsresdtoservice;
     
-	// tpsresdtoservice
-	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",
-					method= RequestMethod.GET,
-					produces = "application/json;application/text;charset=utf-8")
-	public List<TpsResDTO> hour_tps_res( @PathVariable("yyyymmddhh") String yyyymmddhh ) {
-		
-		List<TpsResDTO> list = null;
-	
-		System.out.println("/get/swing/hour/tps_res/{yyyymmddhh} = " + yyyymmddhh );
-	
-		try {
-			/*
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
-			Date date = sdf.parse(yyyymmddhh);	
-			Timestamp timestamp = new Timestamp(date.getTime());
-			
-			System.out.println("date.toString() = " + date.toString());	
-			System.out.println("timestamp.toString() = " + timestamp.toString());
-			 */
-	        
-			list = tpsresdtoservice.get_hour_tpsres(yyyymmddhh);
-			for (TpsResDTO dto : list ) {
-				dto.toString();
-			}
-			return list;
-		} catch(Exception io) {
-			System.out.println(io.toString());			
-			return list;
-		}
-	}
+ // TpsResDTOService tpsresdtoservice
+ 	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",
+ 					method= RequestMethod.GET,
+ 					produces = "application/json;application/text;charset=utf-8")
+ 	public List<TpsResDTO> get_1hour_tpsres( @PathVariable("yyyymmddhh") String yyyymmddhh ) {
+ 		
+ 		List<TpsResDTO> list = null;
+ 	
+ 		System.out.println("/get/swing/hour/tps_res/{yyyymmddhh} = " + yyyymmddhh );
+ 	
+ 		try {
+ 			/*
+ 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
+ 			Date date = sdf.parse(yyyymmddhh);	
+ 			Timestamp timestamp = new Timestamp(date.getTime());
+ 			
+ 			System.out.println("date.toString() = " + date.toString());	
+ 			System.out.println("timestamp.toString() = " + timestamp.toString());
+ 			 */
+ 	        
+ 			list = tpsresdtoservice.get_1hour_tpsres(yyyymmddhh);
+ 			for (TpsResDTO dto : list ) {
+ 				dto.toString();
+ 			}
+ 			return list;
+ 		} catch(Exception io) {
+ 			System.out.println(io.toString());			
+ 			return list;
+ 		}
+ 	}
+ 	
+ // TpsResDTOService tpsresdtoservice
+ 	@RequestMapping(value="/get/swing/hour/tps_res/period",
+ 					method= RequestMethod.POST,
+ 					produces = "application/json;application/text;charset=utf-8")
+ 	public List<TpsResDTO> get_1hour_tpsres_period( @Param("from") String from, @Param("to") String to) {
+ 		
+ 		List<TpsResDTO> list = null;
+ 	
+ 		System.out.println("/get/swing/hour/tps_res/period = from = " + from );
+ 		System.out.println("/get/swing/hour/tps_res/period = to   = " + to );
+ 	
+ 		try {
+ 			/*
+ 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
+ 			Date date = sdf.parse(yyyymmddhh);	
+ 			Timestamp timestamp = new Timestamp(date.getTime());
+ 			
+ 			System.out.println("date.toString() = " + date.toString());	
+ 			System.out.println("timestamp.toString() = " + timestamp.toString());
+ 			 */
+ 	        
+ 			list = tpsresdtoservice.get_1h_period_tpsres(from, to);
+ 			for (TpsResDTO dto : list ) {
+ 				dto.toString();
+ 			}
+ 			return list;
+ 		} catch(Exception io) {
+ 			System.out.println(io.toString());			
+ 			return list;
+ 		}
+ 	}
     
 /*
     // Read
@@ -112,7 +132,7 @@ public class RestAPIController {
     	}
     }
 */
-    
+    /*
     // Read
     // 작성한 글의 id로 정보를 받음
     // @Transactional
@@ -136,6 +156,7 @@ public class RestAPIController {
             //}
     	}
     }
+    */
     
 
     
