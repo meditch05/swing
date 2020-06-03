@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.mw.enpharos.dto.TpsResDTO;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Service
 public class TpsResDTOService {
 	
