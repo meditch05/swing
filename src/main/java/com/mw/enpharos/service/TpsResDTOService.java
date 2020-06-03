@@ -57,7 +57,7 @@ public class TpsResDTOService {
     					"FROM BIZ_STAT_H\n" + 
     					"WHERE CATEGORY_TYPE = '101'\n" + 
     					"  AND TIMESLICE BETWWEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24')\n" +
-    					"  AND           BETWWEN TO_TIMESTAMP(:value2,'YYYYMMDDHH24')\n" +
+    					"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24')\n" +
     					"  AND TX_CODE like 'Z%_TR%'\n" + 
     					"GROUP BY TIMESLICE";
     	
