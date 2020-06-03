@@ -58,14 +58,16 @@ public class RestAPIController {
 		System.out.println("/get/swing/hour/tps_res/{yyyymmddhh} = " + yyyymmddhh );
 	
 		try {
+			/*
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
 			Date date = sdf.parse(yyyymmddhh);	
 			Timestamp timestamp = new Timestamp(date.getTime());
 			
 			System.out.println("date.toString() = " + date.toString());	
 			System.out.println("timestamp.toString() = " + timestamp.toString());
+			 */
 	        
-			list = tpsresdtoservice.getList(yyyymmddhh);
+			list = tpsresdtoservice.get_hour_tpsres(yyyymmddhh);
 			for (TpsResDTO dto : list ) {
 				dto.toString();
 			}

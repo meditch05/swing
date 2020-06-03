@@ -20,7 +20,7 @@ public class TpsResDTOService {
 	@PersistenceContext
 	EntityManager em;
     
-    public List<TpsResDTO> getList(String yyyymmddhh) {    	
+    public List<TpsResDTO> get_hour_tpsres(String yyyymmddhh) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
     	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
     					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
