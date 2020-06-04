@@ -195,7 +195,7 @@ public class RestAPIController {
  	}
  	
  	// TEMP_PEAK_TPS_D 테이블 ( 7일전날 Peak TPS )
- 	@RequestMapping(value="/get/swing/day/tps/peak/7days_before", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/day/tps/peak/7days_before", method= RequestMethod.GET, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsDTO> get_day_peak_tps_7days_before() {
  		
  		List<TpsDTO> list = null;
@@ -213,7 +213,7 @@ public class RestAPIController {
  	}
  	
  	// TEMP_PEAK_TPS_D 테이블 ( 7일전날 Peak TPS )
- 	@RequestMapping(value="/get/swing/day/tps/peak/{yyyymmdd}", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/day/tps/peak/{yyyymmdd}", method= RequestMethod.GET, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsDTO> get_day_peak_tps_7days_before(@PathVariable("yyyymmdd") String yyyymmdd ) {
  		
  		List<TpsDTO> list = null;
