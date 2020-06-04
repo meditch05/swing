@@ -80,7 +80,7 @@ public class TpsResDTOService {
     public List<TpsResDTO> get_1min_tpsres(String yyyymmddhhmm) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
     	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
+    					"		, ROUND(SUM(COUNT)/(60),2) AS TPS\n" + 
     					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
     					"FROM BIZ_STAT_1MIN\n" + 
     					"WHERE CATEGORY_TYPE = '101'\n" + 
@@ -100,7 +100,7 @@ public class TpsResDTOService {
     public List<TpsResDTO> get_1min_tpsres_period(String from, String to) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
     	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
+    					"		, ROUND(SUM(COUNT)/(60),2) AS TPS\n" + 
     					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
     					"FROM BIZ_STAT_1MIN\n" + 
     					"WHERE CATEGORY_TYPE = '101'\n" + 
@@ -124,7 +124,7 @@ public class TpsResDTOService {
     					"FROM" +
     						"(" + 
     						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    						"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
+    						"		, ROUND(SUM(COUNT)/(60),2) AS TPS\n" + 
     						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
     						"FROM BIZ_STAT_1MIN\n" + 
     						"WHERE CATEGORY_TYPE = '101'\n" + 
