@@ -134,7 +134,7 @@ public class TpsResDTOService {
     						"GROUP BY TIMESLICE" +
     						")" +
     					")"
-    					;
+    					; 
     	
     	JpaResultMapper result = new JpaResultMapper();
     	Query query = em.createNativeQuery(sql)
