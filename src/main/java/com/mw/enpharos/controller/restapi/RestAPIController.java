@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.mw.enpharos.dto.TpsDTO;
 import com.mw.enpharos.dto.TpsResDTO;
 import com.mw.enpharos.entity.BIZ_STAT_H;
 import com.mw.enpharos.repository.BIZ_STAT_H_Mapper;
@@ -44,9 +45,7 @@ public class RestAPIController {
     // /get/swing/min/tps_res/period/avg
     
     // BIZ_STAT_H 테이블 ( 1시간 )
- 	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",
- 					method= RequestMethod.GET,
- 					produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",  method= RequestMethod.GET, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsResDTO> get_1hour_tpsres(@PathVariable("yyyymmddhh") String yyyymmddhh ) {
  		
  		List<TpsResDTO> list = null;
@@ -75,9 +74,7 @@ public class RestAPIController {
  	}
  	
  	// BIZ_STAT_H 테이블 ( FROM ~ TO )
- 	@RequestMapping(value="/get/swing/hour/tps_res/period",
- 					method= RequestMethod.POST,
- 					produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/hour/tps_res/period", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsResDTO> get_1hour_tpsres_period(
  			@RequestParam(value="from") String from,
  			@RequestParam(value="to")   String to) {
@@ -100,9 +97,7 @@ public class RestAPIController {
  	}
  	
  	// BIZ_STAT_H 테이블 ( FROM ~ TO )
- 	@RequestMapping(value="/get/swing/hour/tps_res/period/avg",
- 					method= RequestMethod.POST,
- 					produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/hour/tps_res/period/avg", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsResDTO> get_1hour_tpsres_period_avg(
  			@RequestParam(value="from") String from,
  			@RequestParam(value="to")   String to) {
@@ -125,9 +120,7 @@ public class RestAPIController {
  	}
  	
     // BIZ_STAT_1MIN 테이블 ( 1분 )
- 	@RequestMapping(value="/get/swing/min/tps_res/{yyyymmddhhmm}",
- 					method= RequestMethod.GET,
- 					produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/min/tps_res/{yyyymmddhhmm}", method= RequestMethod.GET, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsResDTO> get_1min_tpsres(@PathVariable("yyyymmddhhmm") String yyyymmddhhmm ) {
  		
  		List<TpsResDTO> list = null;
@@ -156,9 +149,7 @@ public class RestAPIController {
  	}
  	
  	// BIZ_STAT_1MIN 테이블 ( FROM ~ TO )
- 	@RequestMapping(value="/get/swing/min/tps_res/period",
- 					method= RequestMethod.POST,
- 					produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/min/tps_res/period", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsResDTO> get_1min_tpsres_period(
  			@RequestParam(value="from") String from,
  			@RequestParam(value="to")   String to) {
@@ -181,9 +172,7 @@ public class RestAPIController {
  	}
  	
  	// BIZ_STAT_1MIN 테이블 ( FROM ~ TO )
- 	@RequestMapping(value="/get/swing/min/tps_res/period/avg",
- 					method= RequestMethod.POST,
- 					produces = "application/json;application/text;charset=utf-8")
+ 	@RequestMapping(value="/get/swing/min/tps_res/period/avg", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
  	public List<TpsResDTO> get_1min_tpsres_period_avg(
  			@RequestParam(value="from") String from,
  			@RequestParam(value="to")   String to) {
@@ -196,6 +185,42 @@ public class RestAPIController {
  		try { 	        
  			list = tpsresdtoservice.get_1min_tpsres_period_avg(from, to);
  			for (TpsResDTO dto : list ) {
+ 				dto.toString();
+ 			}
+ 			return list;
+ 		} catch(Exception io) {
+ 			System.out.println(io.toString());			
+ 			return list;
+ 		}
+ 	}
+ 	
+ 	// TEMP_PEAK_TPS_D 테이블 ( 7일전날 Peak TPS )
+ 	@RequestMapping(value="/get/swing/day/tps/peak/7days_before", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
+ 	public List<TpsDTO> get_day_peak_tps_7days_before() {
+ 		
+ 		List<TpsDTO> list = null;
+ 	
+ 		try { 	        
+ 			list = tpsresdtoservice.get_peak_tps_of_7days_before();
+ 			for (TpsDTO dto : list ) {
+ 				dto.toString();
+ 			}
+ 			return list;
+ 		} catch(Exception io) {
+ 			System.out.println(io.toString());			
+ 			return list;
+ 		}
+ 	}
+ 	
+ 	// TEMP_PEAK_TPS_D 테이블 ( 7일전날 Peak TPS )
+ 	@RequestMapping(value="/get/swing/day/tps/peak/{yyyymmdd}", method= RequestMethod.POST, produces = "application/json;application/text;charset=utf-8")
+ 	public List<TpsDTO> get_day_peak_tps_7days_before(@PathVariable("yyyymmdd") String yyyymmdd ) {
+ 		
+ 		List<TpsDTO> list = null;
+ 	
+ 		try { 	        
+ 			list = tpsresdtoservice.get_peak_tps_of_day(yyyymmdd);
+ 			for (TpsDTO dto : list ) {
  				dto.toString();
  			}
  			return list;

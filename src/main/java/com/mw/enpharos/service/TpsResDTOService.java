@@ -1,5 +1,7 @@
 package com.mw.enpharos.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +11,7 @@ import javax.persistence.Query;
 import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Service;
 
+import com.mw.enpharos.dto.TpsDTO;
 import com.mw.enpharos.dto.TpsResDTO;
 
 @Service
@@ -168,6 +171,44 @@ public class TpsResDTOService {
     			.setParameter("value1", from)
     			.setParameter("value2", to);
     	List<TpsResDTO> list = result.list(query, TpsResDTO.class);
+    	
+    	return list;
+    }
+    
+    public List<TpsDTO> get_peak_tps_of_7days_before() {
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    	Calendar cal = Calendar.getInstance();
+
+        cal.add(Calendar.DATE, -7);
+        System.out.println("7 days before = " + sdf.format(cal.getTimeInMillis()) );
+
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYYMMDD') AS TIME" +  
+						"		, TOTAL_TPS" + 
+						"FROM TEMP_PEAK_TPS_D \n" + 
+						"WHERE TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDD')";
+    	
+    	JpaResultMapper result = new JpaResultMapper();
+    	Query query = em.createNativeQuery(sql)
+    			.setParameter("value1", sdf.format(cal.getTimeInMillis()) );
+    	
+    	List<TpsDTO> list = result.list(query, TpsDTO.class);
+    	
+    	return list;
+    }
+    
+    public List<TpsDTO> get_peak_tps_of_day(String yyyymmdd) {
+
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYYMMDD') AS TIME" +  
+						"		, TOTAL_TPS" + 
+						"FROM TEMP_PEAK_TPS_D \n" + 
+						"WHERE TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDD')";
+    	
+    	JpaResultMapper result = new JpaResultMapper();
+    	Query query = em.createNativeQuery(sql)
+    			.setParameter("value1", yyyymmdd);
+    	
+    	List<TpsDTO> list = result.list(query, TpsDTO.class);
     	
     	return list;
     }
