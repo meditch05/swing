@@ -29,13 +29,13 @@ import javax.persistence.Id;
 @RequestMapping("/api")
 public class RestAPIController {
 	
-    @Autowired
-    private BIZ_STAT_H_Mapper h_Mapper;
+    // @Autowired
+    // private BIZ_STAT_H_Mapper h_Mapper;
     
     @Autowired
     private TpsResDTOService tpsresdtoservice;
     
- // TpsResDTOService tpsresdtoservice
+    // BIZ_STAT_H 테이블 ( 1시간 )
  	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",
  					method= RequestMethod.GET,
  					produces = "application/json;application/text;charset=utf-8")
@@ -66,7 +66,7 @@ public class RestAPIController {
  		}
  	}
  	
- // TpsResDTOService tpsresdtoservice
+ 	// BIZ_STAT_H 테이블 ( FROM ~ TO )
  	@RequestMapping(value="/get/swing/hour/tps_res/period",
  					method= RequestMethod.POST,
  					produces = "application/json;application/text;charset=utf-8")
