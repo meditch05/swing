@@ -92,8 +92,8 @@ public class TpsResDTOService {
     						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
     						"FROM BIZ_STAT_1MIN \n" + 
     						"WHERE CATEGORY_TYPE = '101' \n" + 
-    						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH2I') \n" +
-    						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH2I') \n" +
+    						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24') \n" +
+    						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24') \n" +
     						"  AND TX_CODE like 'Z%_TR%' \n" + 
     						"GROUP BY TIMESLICE \n" +
     						") \n"
