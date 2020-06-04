@@ -27,6 +27,11 @@ public class TpsResDTOService {
 	// TEMP_PT_TPS_D    ( pj_uri_stat_1min	기준 PT단 성능 내부/외부 )
 	// TEMP_AP_STAT_DN  ( biz_stat_1min		기준 Swing 성능용량 보고서 작성시, 등록/조회 TP 구분하여 TPS 추출
 	
+	// get_1hour_tpsres(String yyyymmddhh)
+	// get_1hour_tpsres_period(String from, String to)
+	// get_1min_tpsres(String yyyymmddhhmm)
+	// get_1min_tpsres_period(String from, String to)
+	
 	@PersistenceContext
 	EntityManager em;
     
@@ -44,12 +49,13 @@ public class TpsResDTOService {
     	JpaResultMapper result = new JpaResultMapper();
     	Query query = em.createNativeQuery(sql)
     			.setParameter("value1", yyyymmddhh);
+    	
     	List<TpsResDTO> list = result.list(query,  TpsResDTO.class);
     	
     	return list;
     }
     
-    public List<TpsResDTO> get_1h_period_tpsres(String from, String to) {    	
+    public List<TpsResDTO> get_1hour_tpsres_period(String from, String to) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
     	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
     					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
@@ -70,7 +76,27 @@ public class TpsResDTOService {
     	return list;
     }
     
-    public List<TpsResDTO> get_1min_period_tpsres(String from, String to) {    	
+    public List<TpsResDTO> get_1min_tpsres(String yyyymmddhhmm) {    	
+    	// QLRM 사용 - JPaResultMApper => DTO 맵핑
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
+    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
+    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
+    					"FROM BIZ_STAT_1MIN\n" + 
+    					"WHERE CATEGORY_TYPE = '101'\n" + 
+    					"  AND TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI')\n" +
+    					"  AND TX_CODE like 'Z%_TR%'\n" + 
+    					"GROUP BY TIMESLICE";
+    	
+    	JpaResultMapper result = new JpaResultMapper();
+    	Query query = em.createNativeQuery(sql)
+    			.setParameter("value1", yyyymmddhhmm);
+    	
+    	List<TpsResDTO> list = result.list(query,  TpsResDTO.class);
+    	
+    	return list;
+    }
+    
+    public List<TpsResDTO> get_1min_tpsres_period(String from, String to) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
     	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
     					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 

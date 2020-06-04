@@ -79,6 +79,28 @@ public class RestAPIController {
  		System.out.println("/get/swing/hour/tps_res/period = from = " + from );
  		System.out.println("/get/swing/hour/tps_res/period = to   = " + to );
  	
+ 		try { 	        
+ 			list = tpsresdtoservice.get_1hour_tpsres_period(from, to);
+ 			for (TpsResDTO dto : list ) {
+ 				dto.toString();
+ 			}
+ 			return list;
+ 		} catch(Exception io) {
+ 			System.out.println(io.toString());			
+ 			return list;
+ 		}
+ 	}
+ 	
+    // BIZ_STAT_1MIN 테이블 ( 1분 )
+ 	@RequestMapping(value="/get/swing/min/tps_res/{yyyymmddhhmm}",
+ 					method= RequestMethod.GET,
+ 					produces = "application/json;application/text;charset=utf-8")
+ 	public List<TpsResDTO> get_1min_tpsres(@PathVariable("yyyymmddhhmm") String yyyymmddhhmm ) {
+ 		
+ 		List<TpsResDTO> list = null;
+ 	
+ 		System.out.println("/get/swing/min/tps_res/{yyyymmddhhmm} = " + yyyymmddhhmm );
+ 	
  		try {
  			/*
  			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
@@ -89,7 +111,32 @@ public class RestAPIController {
  			System.out.println("timestamp.toString() = " + timestamp.toString());
  			 */
  	        
- 			list = tpsresdtoservice.get_1h_period_tpsres(from, to);
+ 			list = tpsresdtoservice.get_1min_tpsres(yyyymmddhhmm);
+ 			for (TpsResDTO dto : list ) {
+ 				dto.toString();
+ 			}
+ 			return list;
+ 		} catch(Exception io) {
+ 			System.out.println(io.toString());			
+ 			return list;
+ 		}
+ 	}
+ 	
+ 	// BIZ_STAT_1MIN 테이블 ( FROM ~ TO )
+ 	@RequestMapping(value="/get/swing/min/tps_res/period",
+ 					method= RequestMethod.POST,
+ 					produces = "application/json;application/text;charset=utf-8")
+ 	public List<TpsResDTO> get_1min_tpsres_period(
+ 			@RequestParam(value="from") String from,
+ 			@RequestParam(value="to")   String to) {
+ 		
+ 		List<TpsResDTO> list = null;
+ 	
+ 		System.out.println("/get/swing/min/tps_res/period = from = " + from );
+ 		System.out.println("/get/swing/min/tps_res/period = to   = " + to );
+ 	
+ 		try { 	        
+ 			list = tpsresdtoservice.get_1min_tpsres_period(from, to);
  			for (TpsResDTO dto : list ) {
  				dto.toString();
  			}

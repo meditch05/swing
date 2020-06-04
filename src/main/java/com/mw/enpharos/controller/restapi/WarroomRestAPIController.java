@@ -33,7 +33,7 @@ public class WarroomRestAPIController {
     private TpsResDTOService tpsresdtoservice;
     
     // BIZ_STAT_H 테이블 ( 1시간 )
- 	@RequestMapping(value="/get/swing/min/tps_res/period",
+ 	@RequestMapping(value="/get/swing/warroom/tps_res/{yyyymmdd}/{",
  					method= RequestMethod.GET,
  					produces = "application/json;application/text;charset=utf-8")
  	public List<TpsResDTO> get_1min_tpsres_period(
@@ -55,7 +55,7 @@ public class WarroomRestAPIController {
  			System.out.println("timestamp.toString() = " + timestamp.toString());
  			 */
  	        
- 			list = tpsresdtoservice.get_1min_period_tpsres(from, to);
+ 			list = tpsresdtoservice.get_1min_tpsres_period(from, to);
  			for (TpsResDTO dto : list ) {
  				dto.toString();
  			}
