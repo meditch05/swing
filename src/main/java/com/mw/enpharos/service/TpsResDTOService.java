@@ -138,9 +138,7 @@ public class TpsResDTOService {
     	JpaResultMapper result = new JpaResultMapper();
     	Query query = em.createNativeQuery(sql)
     			.setParameter("value1", from)
-    			.setParameter("value2", to)
-    			.setParameter("value3", from)
-    			.setParameter("value4", to);
+    			.setParameter("value2", to);
     	List<TpsResDTO> list = result.list(query, TpsResDTO.class);
     	
     	return list;
