@@ -120,7 +120,7 @@ public class TpsResDTOService {
     
     public List<TpsResDTO> get_1min_tpsres_period_avg(String from, String to) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
-    	String sql =	"SELECT :value3'_':value4, AVG(TPS), AVG(RESP)" +
+    	String sql =	"SELECT 'PERIOD_AVG', AVG(TPS), AVG(RESP)" +
     					"FROM" +
     						"(" + 
     						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
