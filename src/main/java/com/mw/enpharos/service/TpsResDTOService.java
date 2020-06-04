@@ -132,8 +132,7 @@ public class TpsResDTOService {
     						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24MI')\n" +
     						"  AND TX_CODE like 'Z%_TR%'\n" + 
     						"GROUP BY TIMESLICE" +
-    						")" +
-    					")"
+    						")"
     					; 
     	
     	JpaResultMapper result = new JpaResultMapper();
