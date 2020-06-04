@@ -35,6 +35,12 @@ public class RestAPIController {
     @Autowired
     private TpsResDTOService tpsresdtoservice;
     
+    // /get/swing/hour/tps_res/{yyyymmddhh}
+    // /get/swing/hour/tps_res/period
+    // /get/swing/min/tps_res/{yyyymmddhhmm}
+    // /get/swing/min/tps_res/period
+    // /get/swing/min/tps_res/period/avg
+    
     // BIZ_STAT_H 테이블 ( 1시간 )
  	@RequestMapping(value="/get/swing/hour/tps_res/{yyyymmddhh}",
  					method= RequestMethod.GET,
@@ -137,6 +143,31 @@ public class RestAPIController {
  	
  		try { 	        
  			list = tpsresdtoservice.get_1min_tpsres_period(from, to);
+ 			for (TpsResDTO dto : list ) {
+ 				dto.toString();
+ 			}
+ 			return list;
+ 		} catch(Exception io) {
+ 			System.out.println(io.toString());			
+ 			return list;
+ 		}
+ 	}
+ 	
+ 	// BIZ_STAT_1MIN 테이블 ( FROM ~ TO )
+ 	@RequestMapping(value="/get/swing/min/tps_res/period/avg",
+ 					method= RequestMethod.POST,
+ 					produces = "application/json;application/text;charset=utf-8")
+ 	public List<TpsResDTO> get_1min_tpsres_period_avg(
+ 			@RequestParam(value="from") String from,
+ 			@RequestParam(value="to")   String to) {
+ 		
+ 		List<TpsResDTO> list = null;
+ 	
+ 		System.out.println("/get/swing/min/tps_res/period = from = " + from );
+ 		System.out.println("/get/swing/min/tps_res/period = to   = " + to );
+ 	
+ 		try { 	        
+ 			list = tpsresdtoservice.get_1min_tpsres_period_avg(from, to);
  			for (TpsResDTO dto : list ) {
  				dto.toString();
  			}

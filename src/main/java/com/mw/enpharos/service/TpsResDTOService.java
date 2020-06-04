@@ -31,6 +31,7 @@ public class TpsResDTOService {
 	// get_1hour_tpsres_period(String from, String to)
 	// get_1min_tpsres(String yyyymmddhhmm)
 	// get_1min_tpsres_period(String from, String to)
+	// get_1min_tpsres_period_avg(String from, String to)
 	
 	@PersistenceContext
 	EntityManager em;
@@ -113,6 +114,35 @@ public class TpsResDTOService {
     			.setParameter("value1", from)
     			.setParameter("value2", to);
     	List<TpsResDTO> list = result.list(query,  TpsResDTO.class);
+    	
+    	return list;
+    }
+    
+    public List<TpsResDTO> get_1min_tpsres_period_avg(String from, String to) {    	
+    	// QLRM 사용 - JPaResultMApper => DTO 맵핑
+    	String sql =	"SELECT ':from'_':to', AVG(TPS), AVG(RESP)" +
+    					"FROM" +
+    						"(" + 
+    						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
+    						"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
+    						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
+    						"FROM BIZ_STAT_1MIN\n" + 
+    						"WHERE CATEGORY_TYPE = '101'\n" + 
+    						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI')\n" +
+    						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24MI')\n" +
+    						"  AND TX_CODE like 'Z%_TR%'\n" + 
+    						"GROUP BY TIMESLICE" +
+    						")" +
+    					")"
+    					;
+    	
+    	JpaResultMapper result = new JpaResultMapper();
+    	Query query = em.createNativeQuery(sql)
+    			.setParameter("value1", from)
+    			.setParameter("value2", to)
+    			.setParameter("from", from)
+    			.setParameter("to", to);
+    	List<TpsResDTO> list = result.list(query, TpsResDTO.class);
     	
     	return list;
     }
