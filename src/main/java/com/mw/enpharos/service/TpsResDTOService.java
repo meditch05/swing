@@ -43,13 +43,13 @@ public class TpsResDTOService {
     
     public List<TpsResDTO> get_1hour_tpsres(String yyyymmddhh) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
-    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
-    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
-    					"FROM BIZ_STAT_H\n" + 
-    					"WHERE CATEGORY_TYPE = '101'\n" + 
-    					"  AND TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDDHH24')\n" + 
-    					"  AND TX_CODE like 'Z%_TR%'\n" + 
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
+    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS \n" + 
+    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
+    					"FROM BIZ_STAT_H \n" + 
+    					"WHERE CATEGORY_TYPE = '101' \n" + 
+    					"  AND TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDDHH24') \n" + 
+    					"  AND TX_CODE like 'Z%_TR%' \n" + 
     					"GROUP BY TIMESLICE";
     	
     	JpaResultMapper result = new JpaResultMapper();
@@ -63,14 +63,14 @@ public class TpsResDTOService {
     
     public List<TpsResDTO> get_1hour_tpsres_period(String from, String to) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
-    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
-    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
-    					"FROM BIZ_STAT_H\n" + 
-    					"WHERE CATEGORY_TYPE = '101'\n" + 
-    					"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24')\n" +
-    					"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24')\n" +
-    					"  AND TX_CODE like 'Z%_TR%'\n" + 
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
+    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS \n" + 
+    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
+    					"FROM BIZ_STAT_H \n" + 
+    					"WHERE CATEGORY_TYPE = '101' \n" + 
+    					"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24') \n" +
+    					"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24') \n" +
+    					"  AND TX_CODE like 'Z%_TR%' \n" + 
     					"GROUP BY TIMESLICE";
     	
     	JpaResultMapper result = new JpaResultMapper();
@@ -84,19 +84,19 @@ public class TpsResDTOService {
     
     public List<TpsResDTO> get_1hour_tpsres_period_avg(String from, String to) {
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
-    	String sql =	"SELECT 'PERIOD_AVG', ROUND(AVG(TPS),2), ROUND(AVG(RESP),2)" +
-    					"FROM" +
-    						"(" + 
-    						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    						"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS\n" + 
-    						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
-    						"FROM BIZ_STAT_1MIN\n" + 
-    						"WHERE CATEGORY_TYPE = '101'\n" + 
-    						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH2I')\n" +
-    						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH2I')\n" +
-    						"  AND TX_CODE like 'Z%_TR%'\n" + 
-    						"GROUP BY TIMESLICE" +
-    						")"
+    	String sql =	"SELECT 'PERIOD_AVG', ROUND(AVG(TPS),2), ROUND(AVG(RESP),2) \n" +
+    					"FROM \n" +
+    						"( \n" + 
+    						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
+    						"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS \n" + 
+    						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
+    						"FROM BIZ_STAT_1MIN \n" + 
+    						"WHERE CATEGORY_TYPE = '101' \n" + 
+    						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH2I') \n" +
+    						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH2I') \n" +
+    						"  AND TX_CODE like 'Z%_TR%' \n" + 
+    						"GROUP BY TIMESLICE \n" +
+    						") \n"
     					; 
     	
     	JpaResultMapper result = new JpaResultMapper();
@@ -110,13 +110,13 @@ public class TpsResDTOService {
     
     public List<TpsResDTO> get_1min_tpsres(String yyyymmddhhmm) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
-    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    					"		, ROUND(SUM(COUNT)/(60),2) AS TPS\n" + 
-    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
-    					"FROM BIZ_STAT_1MIN\n" + 
-    					"WHERE CATEGORY_TYPE = '101'\n" + 
-    					"  AND TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI')\n" +
-    					"  AND TX_CODE like 'Z%_TR%'\n" + 
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
+    					"		, ROUND(SUM(COUNT)/(60),2) AS TPS \n" + 
+    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
+    					"FROM BIZ_STAT_1MIN \n" + 
+    					"WHERE CATEGORY_TYPE = '101' \n" + 
+    					"  AND TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI') \n" +
+    					"  AND TX_CODE like 'Z%_TR%' \n" + 
     					"GROUP BY TIMESLICE";
     	
     	JpaResultMapper result = new JpaResultMapper();
@@ -130,14 +130,14 @@ public class TpsResDTOService {
     
     public List<TpsResDTO> get_1min_tpsres_period(String from, String to) {    	
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
-    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    					"		, ROUND(SUM(COUNT)/(60),2) AS TPS\n" + 
-    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
-    					"FROM BIZ_STAT_1MIN\n" + 
-    					"WHERE CATEGORY_TYPE = '101'\n" + 
-    					"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI')\n" +
-    					"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24MI')\n" +
-    					"  AND TX_CODE like 'Z%_TR%'\n" + 
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
+    					"		, ROUND(SUM(COUNT)/(60),2) AS TPS \n" + 
+    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
+    					"FROM BIZ_STAT_1MIN \n" + 
+    					"WHERE CATEGORY_TYPE = '101' \n" + 
+    					"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI') \n" +
+    					"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24MI') \n" +
+    					"  AND TX_CODE like 'Z%_TR%' \n" + 
     					"GROUP BY TIMESLICE";
     	
     	JpaResultMapper result = new JpaResultMapper();
@@ -151,18 +151,18 @@ public class TpsResDTOService {
     
     public List<TpsResDTO> get_1min_tpsres_period_avg(String from, String to) {
     	// QLRM 사용 - JPaResultMApper => DTO 맵핑
-    	String sql =	"SELECT 'PERIOD_AVG', ROUND(AVG(TPS),2), ROUND(AVG(RESP),2)" +
-    					"FROM" +
-    						"(" + 
-    						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME\n" + 
-    						"		, ROUND(SUM(COUNT)/(60),2) AS TPS\n" + 
-    						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP\n" + 
-    						"FROM BIZ_STAT_1MIN\n" + 
-    						"WHERE CATEGORY_TYPE = '101'\n" + 
-    						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI')\n" +
-    						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24MI')\n" +
-    						"  AND TX_CODE like 'Z%_TR%'\n" + 
-    						"GROUP BY TIMESLICE" +
+    	String sql =	"SELECT 'PERIOD_AVG', ROUND(AVG(TPS),2), ROUND(AVG(RESP),2) \n" +
+    					"FROM \n" +
+    						"( \n" + 
+    						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
+    						"		, ROUND(SUM(COUNT)/(60),2) AS TPS \n" + 
+    						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
+    						"FROM BIZ_STAT_1MIN \n" + 
+    						"WHERE CATEGORY_TYPE = '101' \n" + 
+    						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24MI') \n" +
+    						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24MI') \n" +
+    						"  AND TX_CODE like 'Z%_TR%' \n" + 
+    						"GROUP BY TIMESLICE \n" +
     						")"
     					; 
     	
@@ -183,8 +183,8 @@ public class TpsResDTOService {
         cal.add(Calendar.DATE, -7);
         System.out.println("7 days before = " + sdf.format(cal.getTimeInMillis()) );
 
-    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYYMMDD') AS TIME" +  
-						"		, TOTAL_TPS" + 
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYYMMDD') AS TIME \n" +  
+						"		, TOTAL_TPS \n" + 
 						"FROM TEMP_PEAK_TPS_D \n" + 
 						"WHERE TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDD')";
     	
@@ -199,8 +199,8 @@ public class TpsResDTOService {
     
     public List<TpsDTO> get_peak_tps_of_day(String yyyymmdd) {
 
-    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYYMMDD') AS TIME" +  
-						"		, TOTAL_TPS" + 
+    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYYMMDD') AS TIME \n" +  
+						"		, TOTAL_TPS \n" + 
 						"FROM TEMP_PEAK_TPS_D \n" + 
 						"WHERE TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDD')";
     	
