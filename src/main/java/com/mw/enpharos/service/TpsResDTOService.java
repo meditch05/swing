@@ -90,7 +90,7 @@ public class TpsResDTOService {
     						"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
     						"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS \n" + 
     						"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
-    						"FROM BIZ_STAT_1MIN \n" + 
+    						"FROM BIZ_STAT_H \n" + 
     						"WHERE CATEGORY_TYPE = '101' \n" + 
     						"  AND TIMESLICE BETWEEN TO_TIMESTAMP(:value1,'YYYYMMDDHH24') \n" +
     						"  AND                   TO_TIMESTAMP(:value2,'YYYYMMDDHH24') \n" +
@@ -193,32 +193,6 @@ public class TpsResDTOService {
     			.setParameter("value1", sdf.format(cal.getTimeInMillis()) );
     	
     	List<TpsDTO> list = result.list(query, TpsDTO.class);
-    	
-    	return list;
-    }
-    
-    public List<TpsResDTO> get_1hour_tpsres_7days_before() {    	
-
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHH");
-    	Calendar cal = Calendar.getInstance();
-
-        cal.add(Calendar.DATE, -7);
-        System.out.println("7 days before = " + sdf.format(cal.getTimeInMillis()) );
-        
-    	String sql =	"SELECT TO_CHAR(TIMESLICE, 'YYYY-MM-DD HH24:MI') AS TIME \n" + 
-    					"		, ROUND(SUM(COUNT)/(60*60),2) AS TPS \n" + 
-    					"		, ROUND(SUM(DURATION)/SUM(COUNT)/1000000,3) AS RESP \n" + 
-    					"FROM BIZ_STAT_H \n" + 
-    					"WHERE CATEGORY_TYPE = '101' \n" + 
-    					"  AND TIMESLICE = TO_TIMESTAMP(:value1,'YYYYMMDDHH24') \n" + 
-    					"  AND TX_CODE like 'Z%_TR%' \n" + 
-    					"GROUP BY TIMESLICE";
-    	
-    	JpaResultMapper result = new JpaResultMapper();
-    	Query query = em.createNativeQuery(sql)
-    			.setParameter("value1", sdf.format(cal.getTimeInMillis()));
-    	
-    	List<TpsResDTO> list = result.list(query,  TpsResDTO.class);
     	
     	return list;
     }

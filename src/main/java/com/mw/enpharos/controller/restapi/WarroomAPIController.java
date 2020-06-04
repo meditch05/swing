@@ -62,22 +62,4 @@ public class WarroomAPIController {
  		}
  		
  	}
- 	
-    // BIZ_STAT_H 테이블 ( 7일전 07:00 ~ 08:00 시간 )
-  	@RequestMapping(value="/get/swing/hour/tps_res/7days_before",  method= RequestMethod.GET, produces = "application/json;application/text;charset=utf-8")
-  	public List<TpsResDTO> get_1hour_tpsres_7days_before() {
-  		
- 		List<TpsResDTO> list = null;
- 	 	
- 		try { 	        
- 			list = tpsresdtoservice.get_1hour_tpsres_7days_before();
- 			for (TpsResDTO dto : list ) {
- 				dto.toString();
- 			}
- 			return list;
- 		} catch(Exception io) {
- 			System.out.println(io.toString());			
- 			return list;
- 		}
-  	}
 }
